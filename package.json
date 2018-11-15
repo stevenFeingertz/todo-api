@@ -5,10 +5,10 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js" // for heroku to start
+    "start": "node server/server.js"
   },
   "engines": {
-    "node": "v11.0.0" // specify engine for heroku to use
+    "node": "v11.0.0"
   },
   "author": "Steven Feingertz",
   "license": "ISC",
