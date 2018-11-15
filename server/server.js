@@ -122,7 +122,6 @@ app.patch('/todos/:id',(req, res) => {
 // START SERVER
 app.listen(port, () => {
 	console.log(`Started on port ${port}`);
-	console.log(process.env.MONGODB_URI);
 });
 
 
