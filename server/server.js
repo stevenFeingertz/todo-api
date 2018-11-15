@@ -60,6 +60,30 @@ app.get('/todos/:id', (req, res) => {
 	});
 });
 
+app.delete('/todos/:id', (req, res) => {
+
+	//capture url param
+	var id = req.params.id;
+
+	// id valid?
+	if ( !ObjectID.isValid(id) ) {
+		return res.status(404).send(); // sending back empty body (404 status is not found)
+	}
+
+	// id is valid, try to remove todo
+	Todo.findByIdAndRemove(id).then((todo) => {
+		if (!todo) {
+			return res.status(404).send(); // sending back empty body (404 status is not found)
+		}
+
+		res.send({todo});
+
+	}, (e) => {
+		res.status(400).send(e);
+	});
+
+});
+
 
 // START SERVER
 app.listen(port, () => {
