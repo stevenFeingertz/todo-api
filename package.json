@@ -1,13 +1,16 @@
 {
   "name": "todo-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Todo App",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server/server.js"
   },
-  "author": "",
+  "engines": {
+    "node": "v11.0.0"
+  },
+  "author": "Steven Feingertz",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",

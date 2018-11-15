@@ -6,10 +6,14 @@ const {mongoose} = require('./db/mongoose.js');
 const {Todo} = require('./models/todo');
 const {User} = require('./models/user');
 
+
+// SETUP EXPRESS
 var app = express();
+// HEROKU PORT VAR
+const port = process.env.PORT || 3000;
 
+// EXPRESS MIDDLEWARE
 app.use(bodyParser.json());
-
 
 // create
 app.post('/todos', (req, res) => {
@@ -57,8 +61,7 @@ app.get('/todos/:id', (req, res) => {
 });
 
 
-
-
-app.listen(3000, () => {
-	console.log('Started on port 3000');
+// START SERVER
+app.listen(port, () => {
+	console.log(`Started on port ${port}`);
 });
