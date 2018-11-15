@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-var {mongoose} = require('./db/mongoose.js');
-var {Todo} = require('./models/todo');
-var {User} = require('./models/user');
+const {mongoose} = require('./db/mongoose.js');
+const {Todo} = require('./models/todo');
+const {User} = require('./models/user');
 
 var app = express();
 
@@ -29,7 +29,7 @@ app.get('/todos', (req, res) => {
 	}, (e) => {
 		res.status(400).send(e);
 	});
-})
+});
 
 
 
