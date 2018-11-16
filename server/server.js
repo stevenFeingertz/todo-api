@@ -1,3 +1,4 @@
+require('./config/config.js');
 
 const _ = require('lodash');
 const express = require('express');
@@ -13,7 +14,7 @@ var {User} = require('./models/user');
 var app = express();
 
 // HEROKU PORT VAR
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
 // EXPRESS MIDDLEWARE
 app.use(bodyParser.json());
