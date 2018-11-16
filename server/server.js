@@ -43,6 +43,16 @@ app.get('/todos', (req, res) => {
 	});
 });
 
+// --- GET ALL ---
+app.get('/users', (req, res) => {
+	User.find().then((users) => {
+		res.send({users});
+	}).catch((e) => {
+		res.status(400).send();
+	});
+});
+
+
 // --- GET ONE ---
 app.get('/todos/:id', (req, res) => {
 
@@ -116,6 +126,25 @@ app.patch('/todos/:id',(req, res) => {
 		res.send({todo});
 	}).catch((e) => {
 		res.status(400).send();
+	});
+});
+
+// -- CREATE NEW USER --
+app.post('/users', (req, res) => {
+
+	// pull out request body params and set the only ones we want
+	var body = _.pick(req.body, ['email', 'password']);
+
+	// new instance of user model, pass in body
+	var user = new User(body);
+
+	// save new user
+	user.save().then((user) => {
+		return user.generateAuthToken();
+	}).then((token) => {
+		res.header('x-auth', token).send(user);
+	}).catch((e) => {
+		res.status(400).send(e);
 	});
 });
 
