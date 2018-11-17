@@ -21,6 +21,7 @@ app.use(bodyParser.json());
 
 // ROUTES
 
+
 // --- ADD ---
 app.post('/todos', (req, res) => {
 	var todo = new Todo({
@@ -153,9 +154,3 @@ app.post('/users', (req, res) => {
 app.listen(port, () => {
 	console.log(`Started on port ${port}`);
 });
-
-
-
-
-
-
