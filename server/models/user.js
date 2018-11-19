@@ -34,7 +34,7 @@ var UserSchema = new mongoose.Schema({
 	}]
 });
 
-// OVERRIDE METHOD - This method is called automatically when the return from this schema converts to JSON.
+// OVERRIDE PRE-BUILT INSTANCE METHOD - This method is called automatically when the return from this schema converts to JSON. That's because it's a pre-built part of this model and doesn't need to be explicitly called.
 // I am intercepting it here to stop the whole document from being returned
 UserSchema.methods.toJSON = function () {
 	var user = this;
@@ -43,7 +43,7 @@ UserSchema.methods.toJSON = function () {
 	return _.pick(userObject, ['_id', 'email']);
 };
 
-// CUSTOM METHOD - we defined this, so it will only be called it we explicitly call it
+// CUSTOM INSTANCE METHOD: a custom instance method needs to be explicitly called from the route to run
 UserSchema.methods.generateAuthToken = function () {
 	var user = this;
 	var access = 'auth';
@@ -56,6 +56,29 @@ UserSchema.methods.generateAuthToken = function () {
 	return user.save().then(() => {
 		return token;
 	});
+};
+
+// CUSTOM MODEL METHOD - this will run as part of the model
+UserSchema.statics.findByToken = function (token) {
+	var User = this;
+	var decoded;
+
+	try {
+		decoded = jwt.verify(token, 'abc123');
+	} catch(e) {
+		return Promise.reject({
+			status: 401,
+			message: 'Authorization Required. Invalid Token'
+		});
+	 	// when this promise rejects, it will end up in the catch method of the route for an error
+	}
+
+	return User.findOne({
+		'_id': decoded._id,
+		'tokens.token': token,
+		'tokens.access': 'auth'
+	});
+
 };
 
 var User = mongoose.model('User', UserSchema);
