@@ -67,7 +67,6 @@ UserSchema.statics.findByToken = function (token) {
 		decoded = jwt.verify(token, 'abc123');
 	} catch(e) {
 		return Promise.reject({
-			status: 401,
 			message: 'Authorization Required. Invalid Token'
 		});
 	 	// when this promise rejects, it will end up in the catch method of the route for an error

@@ -8,6 +8,7 @@ const {ObjectID} = require('mongodb');
 var {mongoose} = require('./db/mongoose.js');
 var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
+var {authenticate} = require('./middleware/authenticate.js');
 
 
 // SETUP EXPRESS
@@ -22,20 +23,8 @@ app.use(bodyParser.json());
 // ROUTES
 
 // create private routes that are authneticated
-app.get('/users/me', (req, res) => {
-	var token = req.header('x-auth');
-	User.findByToken(token).then((user) => {
-		if (!user) {
-			return Promise.reject({
-				status: 401,
-				message: 'User not found'
-			});
-		}
-
-		res.send({user});
-	}).catch((e) => {
-		res.status(401).send(e);
-	});
+app.get('/users/me', authenticate, (req, res) => {
+	res.send(req.user);
 });
 
 // --- ADD ---
